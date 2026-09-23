@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doğum Günün Kut Olsun! 🐺 | Kutlu Toy</title>
+  
+  <!-- Modern Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Outfit:wght@600;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Canvas Confetti CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+  <!-- Özel Stiller -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ==========================================================================
+       1. ARKA PLAN VE PARÇACIK CANVASLARI
+       ========================================================================== -->
+  <canvas id="star-canvas"></canvas>
+  <canvas id="fireworks-canvas"></canvas>
+  <div class="balloons-container" id="balloons-container"></div>
+
+  <!-- ==========================================================================
+       2. GİRİŞ SÜRPRİZ EKRANI (AÇILMAMIŞ HEDİYE PAKETİ)
+       ========================================================================== -->
+  <div id="intro-screen">
+    <div class="intro-content">
+      <div class="turkic-symbol-badge">
+        <span>🐺 𐱅𐰇𐰼𐰚 🐺</span>
+      </div>
+      <div class="gift-box-container">
+        <div class="gift-box" id="gift-box">
+          <div class="gift-lid">
+            <div class="gift-bow">
+              <div class="bow-left"></div>
+              <div class="bow-knot"></div>
+              <div class="bow-right"></div>
+            </div>
+          </div>
+          <div class="gift-ribbon-vertical"></div>
+          <div class="gift-ribbon-horizontal"></div>
+        </div>
+      </div>
+      <h1 class="intro-title">Sana Özel Kutlu Bir Sürpriz!</h1>
+      <p class="intro-subtitle">Bozkırın asil yürekli kandaşı için hazırlandı...</p>
+      <button class="open-btn" id="open-gift-btn">
+        <span>Hediyeyi Aç</span> 🎁
+      </button>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       3. YÜZEN HIZLI KONTROLLER (MÜZİK & KUTLAMA)
+       ========================================================================== -->
+  <div class="floating-controls">
+    <button class="ctrl-btn" id="music-toggle-btn" title="Müziği Başlat / Durdur">
+      🎵
+    </button>
+    <button class="ctrl-btn" id="fireworks-toggle-btn" title="Kutlama Fişekleri">
+      🎆
+    </button>
+  </div>
+
+  <!-- ==========================================================================
+       4. ANA İÇERİK KAPSAYICISI
+       ========================================================================== -->
+  <main class="main-wrapper">
+    
+    <!-- HERO BÖLÜMÜ -->
+    <section class="hero-section">
+      <div class="hero-badge" id="hero-date-badge">
+        🐺 <span>𐱅𐰭𐰼𐰃 • 23 Eylül</span> 🎂
+      </div>
+      <h1 class="hero-title">
+        Doğum Günün Kut Olsun,<br>
+        <span class="friend-name-glow dynamic-name">Canım Kandaşım</span>! 🐺
+      </h1>
+      <p class="hero-subtitle" id="hero-subtitle">
+        Bugün bozkırın en mert, en değerli insanının toy günü! Yeni yaşın kutlu, toyun şen, bahtın daima açık olsun.
+      </p>
+      <div class="hero-actions">
+        <button class="celebrate-btn" id="celebrate-hero-btn">
+          <span>Kutlamayı Başlat!</span> 🎊
+        </button>
+        <a href="#cake-section" class="secondary-btn">
+          <span>Kutlu Pastayı Gör</span> 🎂
+        </a>
+        <a href="#scratch-section" class="secondary-btn">
+          <span>Sürpriz Kartlar</span> 🪙
+        </a>
+        <a href="#letter-section" class="secondary-btn">
+          <span>Mektubun</span> 💌
+        </a>
+      </div>
+    </section>
+
+    <!-- İNTERAKTİF PASTA VE MUM ÜFLEME BÖLÜMÜ -->
+    <section class="cake-section" id="cake-section">
+      <div class="section-tag">KUTLU TOY &amp; DİLEK VAKTİ</div>
+      <h2 class="section-title">Ateşin Harlansın, Mumları Üfle! 🎂</h2>
+      <p class="section-desc">Kutun artsın, toyun şen olsun! Pastaya dokunarak ya da butona basarak mumları üfle, dileğin göklere ulaşsın.</p>
+
+      <div class="cake-stage">
+        <div class="cake" id="birthday-cake" title="Mumları üflemek için tıkla!">
+          <!-- Mumlar -->
+          <div class="candles-row">
+            <div class="candle">
+              <div class="flame"></div>
+              <div class="wick"></div>
+              <div class="smoke"></div>
+            </div>
+            <div class="candle">
+              <div class="flame"></div>
+              <div class="wick"></div>
+              <div class="smoke"></div>
+            </div>
+            <div class="candle">
+              <div class="flame"></div>
+              <div class="wick"></div>
+              <div class="smoke"></div>
+            </div>
+          </div>
+          <!-- Pasta Katları -->
+          <div class="cake-tier cake-top"></div>
+          <div class="cake-tier cake-middle"></div>
+          <div class="cake-tier cake-bottom"></div>
+          <div class="cake-plate"></div>
+        </div>
+      </div>
+
+      <div class="wish-banner" id="wish-banner">
+        🐺 TOYUN KUTLU, DİLEĞİN KABUL OLSUN KANDAŞIM! 🐺
+      </div>
+
+      <div>
+        <button class="blow-cake-btn" id="blow-cake-btn">
+          🎂 Mumları Üfle!
+        </button>
+      </div>
+    </section>
+
+    <!-- KAZI KAZAN SÜRPRİZ KARTLARI -->
+    <section class="scratch-section" id="scratch-section" style="margin-top: 60px;">
+      <div style="text-align: center;">
+        <div class="section-tag">İNTERAKTİF BOZKIR SÜRPRİZLERİ</div>
+        <h2 class="section-title">Kandaş Kazı - Kazan Kartları 🪙</h2>
+        <p class="section-desc">Sana özel hazırladığım sürprizleri ve hediyeni görmek için aşağıdaki kartları farenle veya parmağınla kazı!</p>
+      </div>
+      <div class="scratch-grid" id="scratch-grid"></div>
+    </section>
+
+    <!-- DUYGUSAL TÜRKÇÜ DOSTLUK MEKTUBU BÖLÜMÜ -->
+    <section class="letter-section" id="letter-section">
+      <div class="letter-envelope">
+        <div class="letter-stamp" title="Kurt Başı Mührü">🐺</div>
+        <div class="gokturk-watermark">𐱅𐰇𐰼𐰚</div>
+        <h3 class="letter-title">Kandaşıma Özel Mektup 🏹</h3>
+        <div class="letter-salutation" id="letter-salutation">Kıymetli Kandaşım, Can Dostum,</div>
+        <div class="letter-body" id="letter-body"></div>
+        <div class="letter-closing">
+          <div class="letter-closing-text">Daima Sırt Sırta, Yoldaşın,</div>
+          <div class="letter-signature" id="letter-signature">Ahmet</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer-section">
+      <div class="footer-tamga">𐱅𐰭𐰼𐰃 • 𐱅𐰇𐰼𐰚 • 𐰉𐰆𐰔𐰴𐰆𐰺𐱃</div>
+      <p>Tengri Türk'ü Korusun ve Yüceltsin! 🐺</p>
+      <p style="margin-top: 6px; font-size: 0.85rem; opacity: 0.7;">Nice kutlu, zafer ve neşe dolu yaşlara kandaşım!</p>
+    </footer>
+
+  </main>
+
+  <!-- Yapılandırma ve Motor Kodları -->
+  <script src="config.js"></script>
+  <script src="audio.js"></script>
+  <script src="script.js"></script>
+
+</body>
+</html>

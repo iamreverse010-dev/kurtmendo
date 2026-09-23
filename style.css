@@ -1,0 +1,887 @@
+/* ==========================================================================
+   DOĞUM GÜNÜ SÜRPRİZ SİTESİ - TÜRKÇÜ & MODERN KUTLU TOY TEMASI
+   Gök Tengri Mavisi, Bozkır Gecesi, Altın Işıltıları & Glassmorphism
+   ========================================================================== */
+
+:root {
+  --primary: #00b4d8;
+  --primary-light: #48cae4;
+  --secondary: #0077b6;
+  --secondary-dark: #03045e;
+  --accent: #ffd166;
+  --accent-gold: #ffb703;
+  --accent-glow: rgba(255, 209, 102, 0.5);
+  --cyan-glow: rgba(0, 180, 216, 0.4);
+  --bg-gradient: radial-gradient(ellipse at top, #0d1b2a 0%, #03071e 55%, #000814 100%);
+  --card-bg: rgba(13, 27, 42, 0.65);
+  --card-border: rgba(0, 180, 216, 0.25);
+  --text-main: #ffffff;
+  --text-muted: rgba(224, 231, 255, 0.8);
+  --font-heading: 'Outfit', 'Segoe UI', system-ui, sans-serif;
+  --font-body: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif;
+  --font-handwriting: 'Caveat', cursive, sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg-gradient);
+  background-attachment: fixed;
+  color: var(--text-main);
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+  line-height: 1.6;
+}
+
+/* ==========================================================================
+   1. GİRİŞ EKRANI (HEDİYE PAKETİ MODALI / INTRO)
+   ========================================================================== */
+#intro-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: radial-gradient(circle at center, #0c2340 0%, #020617 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.9s;
+  padding: 20px;
+  text-align: center;
+}
+
+#intro-screen.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.intro-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 480px;
+}
+
+.turkic-symbol-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(0, 180, 216, 0.15);
+  border: 1px solid rgba(0, 180, 216, 0.4);
+  padding: 6px 18px;
+  border-radius: 50px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--primary-light);
+  letter-spacing: 2px;
+  margin-bottom: 22px;
+  box-shadow: 0 0 20px var(--cyan-glow);
+}
+
+.gift-box-container {
+  position: relative;
+  cursor: pointer;
+  margin-bottom: 30px;
+  transform-style: preserve-3d;
+  transition: transform 0.3s ease;
+}
+
+.gift-box-container:hover {
+  transform: scale(1.08) rotate(3deg);
+}
+
+.gift-box {
+  width: 140px;
+  height: 140px;
+  background: linear-gradient(135deg, #0077b6, #00b4d8);
+  border-radius: 18px;
+  position: relative;
+  box-shadow: 0 15px 35px rgba(0, 119, 182, 0.4), 0 0 50px rgba(255, 209, 102, 0.3);
+  animation: giftBounce 2s infinite ease-in-out;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.gift-lid {
+  width: 154px;
+  height: 38px;
+  background: linear-gradient(135deg, #0096c7, #48cae4);
+  border-radius: 10px;
+  position: absolute;
+  top: -15px;
+  left: -7px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.35);
+  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.gift-ribbon-vertical {
+  width: 28px;
+  height: 100%;
+  background: linear-gradient(180deg, #ffd700, #ffb703);
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0 0 12px rgba(255, 215, 0, 0.6);
+}
+
+.gift-ribbon-horizontal {
+  width: 100%;
+  height: 28px;
+  background: linear-gradient(90deg, #ffd700, #ffb703);
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  box-shadow: 0 0 12px rgba(255, 215, 0, 0.6);
+}
+
+.gift-bow {
+  width: 50px;
+  height: 30px;
+  position: absolute;
+  top: -26px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+}
+
+.bow-knot {
+  width: 18px;
+  height: 18px;
+  background: #ffe066;
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(255, 224, 102, 0.8);
+  z-index: 2;
+}
+
+.bow-left, .bow-right {
+  width: 24px;
+  height: 24px;
+  border: 4px solid #ffd700;
+  border-radius: 50% 50% 10% 50%;
+  position: absolute;
+  top: -6px;
+}
+
+.bow-left {
+  left: 4px;
+  transform: rotate(-35deg);
+}
+
+.bow-right {
+  right: 4px;
+  transform: rotate(35deg) scaleX(-1);
+}
+
+@keyframes giftBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px) rotate(2deg); }
+}
+
+.gift-box.opened .gift-lid {
+  transform: translateY(-60px) rotate(-25deg);
+}
+
+.intro-title {
+  font-family: var(--font-heading);
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin-bottom: 12px;
+  background: linear-gradient(90deg, #48cae4, #ffd166, #90e0ef);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shine 3s linear infinite;
+}
+
+.intro-subtitle {
+  font-size: 1.15rem;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+}
+
+.open-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #0077b6 0%, #00b4d8 100%);
+  color: #fff;
+  border: 1px solid rgba(255, 209, 102, 0.5);
+  padding: 14px 34px;
+  font-size: 1.15rem;
+  font-weight: 700;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 10px 25px rgba(0, 180, 216, 0.4);
+  transition: all 0.3s ease;
+  animation: pulseBtn 2s infinite;
+}
+
+.open-btn:hover {
+  transform: scale(1.06) translateY(-2px);
+  box-shadow: 0 15px 35px rgba(0, 180, 216, 0.6);
+}
+
+@keyframes pulseBtn {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(0, 180, 216, 0.5); }
+  70% { box-shadow: 0 0 0 16px rgba(0, 180, 216, 0); }
+}
+
+/* ==========================================================================
+   2. ARKA PLAN EFEKTLERİ (UÇAN BALONLAR & YILDIZLAR)
+   ========================================================================== */
+#star-canvas, #fireworks-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+#star-canvas { z-index: 0; }
+#fireworks-canvas { z-index: 999; }
+
+.balloons-container {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.balloon {
+  position: absolute;
+  bottom: -150px;
+  width: 55px;
+  height: 70px;
+  border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+  opacity: 0.85;
+  animation: floatUp 14s linear infinite;
+  box-shadow: inset -5px -5px 12px rgba(0, 0, 0, 0.3), inset 5px 5px 12px rgba(255, 255, 255, 0.4);
+}
+
+.balloon::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 35px;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(0) translateX(0) rotate(0deg);
+    opacity: 0;
+  }
+  10% { opacity: 0.85; }
+  90% { opacity: 0.85; }
+  100% {
+    transform: translateY(-120vh) translateX(50px) rotate(15deg);
+    opacity: 0;
+  }
+}
+
+/* ==========================================================================
+   3. YÜZEN KONTROL BUTONLARI (MÜZİK & KUTLAMA BUTONU)
+   ========================================================================== */
+.floating-controls {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  display: flex;
+  gap: 12px;
+}
+
+.ctrl-btn {
+  background: rgba(13, 27, 42, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 180, 216, 0.4);
+  color: #fff;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+.ctrl-btn:hover {
+  background: rgba(0, 180, 216, 0.3);
+  transform: scale(1.12);
+  box-shadow: 0 6px 20px rgba(0, 180, 216, 0.5);
+}
+
+.ctrl-btn.active {
+  background: linear-gradient(135deg, #0077b6, #00b4d8);
+  border-color: #ffd166;
+}
+
+/* ==========================================================================
+   4. ANA SAYFA DÜZENİ & SECTIONS
+   ========================================================================== */
+.main-wrapper {
+  position: relative;
+  z-index: 10;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 40px 20px 90px;
+}
+
+/* HERO SECTION */
+.hero-section {
+  text-align: center;
+  padding: 45px 10px 35px;
+  position: relative;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0, 180, 216, 0.12);
+  border: 1px solid rgba(255, 209, 102, 0.5);
+  padding: 8px 22px;
+  border-radius: 50px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 20px;
+  box-shadow: 0 0 20px rgba(255, 209, 102, 0.25);
+  letter-spacing: 1px;
+}
+
+.hero-title {
+  font-family: var(--font-heading);
+  font-size: 3.5rem;
+  font-weight: 900;
+  line-height: 1.15;
+  margin-bottom: 14px;
+  letter-spacing: -1px;
+}
+
+.friend-name-glow {
+  background: linear-gradient(90deg, #48cae4, #90e0ef, #ffd166, #48cae4);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shine 4s linear infinite;
+  text-shadow: 0 0 35px rgba(0, 180, 216, 0.5);
+  display: inline-block;
+}
+
+@keyframes shine {
+  to { background-position: 200% center; }
+}
+
+.hero-subtitle {
+  font-size: 1.25rem;
+  color: var(--text-muted);
+  max-width: 680px;
+  margin: 0 auto 30px;
+  line-height: 1.7;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.celebrate-btn {
+  background: linear-gradient(135deg, #0077b6, #00b4d8);
+  color: white;
+  border: 1px solid rgba(255, 209, 102, 0.6);
+  padding: 14px 28px;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 1.05rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 8px 25px rgba(0, 180, 216, 0.4);
+  transition: all 0.3s ease;
+}
+
+.celebrate-btn:hover {
+  transform: translateY(-3px) scale(1.04);
+  box-shadow: 0 12px 30px rgba(0, 180, 216, 0.6);
+}
+
+.secondary-btn {
+  background: rgba(13, 27, 42, 0.6);
+  color: white;
+  border: 1px solid rgba(0, 180, 216, 0.3);
+  padding: 14px 26px;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 1.05rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.secondary-btn:hover {
+  background: rgba(0, 180, 216, 0.2);
+  border-color: rgba(255, 209, 102, 0.5);
+  transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   5. İNTERAKTİF DOĞUM GÜNÜ PASTASI & MUM ÜFLEME
+   ========================================================================== */
+.cake-section {
+  background: var(--card-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--card-border);
+  border-radius: 30px;
+  padding: 50px 30px;
+  margin: 40px auto;
+  text-align: center;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), 0 0 30px rgba(0, 180, 216, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.section-tag {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--accent);
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.section-title {
+  font-family: var(--font-heading);
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+
+.section-desc {
+  color: var(--text-muted);
+  max-width: 580px;
+  margin: 0 auto 35px;
+}
+
+/* 3D Pasta Çizimi */
+.cake-stage {
+  height: 230px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  position: relative;
+  margin-bottom: 25px;
+}
+
+.cake {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
+
+.cake-tier {
+  border-radius: 14px;
+  position: relative;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+.cake-top {
+  width: 140px;
+  height: 50px;
+  background: linear-gradient(180deg, #48cae4 0%, #0096c7 100%);
+  border-top: 6px solid #e0f2fe;
+  z-index: 3;
+}
+
+.cake-middle {
+  width: 190px;
+  height: 55px;
+  background: linear-gradient(180deg, #0077b6 0%, #023e8a 100%);
+  border-top: 6px solid #ffd166;
+  z-index: 2;
+  margin-top: -6px;
+}
+
+.cake-bottom {
+  width: 250px;
+  height: 65px;
+  background: linear-gradient(180deg, #1e3a8a 0%, #0f172a 100%);
+  border-top: 6px solid #e0f2fe;
+  z-index: 1;
+  margin-top: -6px;
+}
+
+.cake-plate {
+  width: 300px;
+  height: 16px;
+  background: #cbd5e1;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+  margin-top: -3px;
+  z-index: 0;
+}
+
+/* Mumlar */
+.candles-row {
+  display: flex;
+  gap: 24px;
+  position: absolute;
+  top: -46px;
+  z-index: 4;
+}
+
+.candle {
+  width: 12px;
+  height: 44px;
+  background: repeating-linear-gradient(45deg, #ffd166, #ffd166 6px, #0077b6 6px, #0077b6 12px);
+  border-radius: 4px;
+  position: relative;
+}
+
+.wick {
+  width: 2px;
+  height: 8px;
+  background: #333;
+  position: absolute;
+  top: -8px;
+  left: 5px;
+}
+
+.flame {
+  width: 16px;
+  height: 24px;
+  background: radial-gradient(ellipse at bottom, #fff 0%, #ffd166 40%, #ff4b2b 85%);
+  border-radius: 50% 50% 20% 20% / 60% 60% 40% 40%;
+  position: absolute;
+  top: -26px;
+  left: -2px;
+  box-shadow: 0 0 15px rgba(255, 209, 102, 0.9), 0 0 30px rgba(255, 183, 3, 0.6);
+  animation: flicker 1.2s infinite alternate ease-in-out;
+  transform-origin: bottom center;
+  transition: all 0.3s ease;
+}
+
+@keyframes flicker {
+  0% { transform: scale(1) rotate(-2deg); }
+  50% { transform: scale(1.08) rotate(3deg); }
+  100% { transform: scale(0.95) rotate(-1deg); }
+}
+
+/* Mum Üflendiğinde */
+.candle.blown .flame {
+  opacity: 0;
+  transform: scale(0.1) translateY(-10px);
+  pointer-events: none;
+}
+
+.smoke {
+  position: absolute;
+  top: -25px;
+  left: 4px;
+  width: 6px;
+  height: 6px;
+  background: rgba(220, 220, 220, 0.8);
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.candle.blown .smoke {
+  animation: smokeRise 1.6s forwards ease-out;
+}
+
+@keyframes smokeRise {
+  0% { opacity: 0.8; transform: translateY(0) scale(1); }
+  50% { opacity: 0.5; transform: translateY(-20px) scale(2.5) translateX(6px); }
+  100% { opacity: 0; transform: translateY(-40px) scale(4) translateX(-8px); }
+}
+
+.wish-banner {
+  margin-top: 15px;
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--accent);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.5s ease;
+  min-height: 35px;
+  text-shadow: 0 0 15px rgba(255, 209, 102, 0.5);
+}
+
+.wish-banner.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.blow-cake-btn {
+  background: linear-gradient(135deg, #ffd166, #ffb703);
+  color: #0f172a;
+  font-weight: 800;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 50px;
+  font-size: 1.05rem;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(255, 183, 3, 0.4);
+  transition: all 0.3s ease;
+}
+
+.blow-cake-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 25px rgba(255, 183, 3, 0.6);
+}
+
+/* ==========================================================================
+   6. KAZI KAZAN SÜRPRİZ KARTLARI
+   ========================================================================== */
+.scratch-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+  margin: 35px 0;
+}
+
+.scratch-card {
+  background: var(--card-bg);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--card-border);
+  border-radius: 24px;
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.scratch-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 209, 102, 0.5);
+}
+
+.scratch-badge {
+  display: inline-block;
+  background: rgba(0, 180, 216, 0.2);
+  color: var(--primary-light);
+  border: 1px solid rgba(0, 180, 216, 0.4);
+  padding: 4px 14px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.scratch-question {
+  font-weight: 600;
+  font-size: 1.05rem;
+  margin-bottom: 16px;
+  color: #fff;
+  min-height: 48px;
+}
+
+.scratch-area-box {
+  width: 100%;
+  height: 125px;
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #091321, #13243a);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  text-align: center;
+  border: 2px dashed rgba(0, 180, 216, 0.4);
+}
+
+.scratch-secret {
+  color: #ffd166;
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.45;
+  user-select: none;
+}
+
+.scratch-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+  touch-action: none;
+}
+
+.scratch-canvas:active {
+  cursor: grabbing;
+}
+
+/* ==========================================================================
+   7. DUYGUSAL TÜRKÇÜ DOSTLUK MEKTUBU (ZARF & PARŞÖMEN)
+   ========================================================================== */
+.letter-section {
+  margin: 60px auto;
+  max-width: 800px;
+}
+
+.letter-envelope {
+  background: #fdfbf7;
+  color: #1f2937;
+  border-radius: 24px;
+  padding: 50px 42px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5), inset 0 0 35px rgba(220, 200, 170, 0.4);
+  position: relative;
+  border: 2px solid #e2d4bc;
+  overflow: hidden;
+}
+
+.gokturk-watermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 7rem;
+  font-weight: 900;
+  color: rgba(0, 119, 182, 0.05);
+  pointer-events: none;
+  user-select: none;
+  letter-spacing: 12px;
+}
+
+.letter-stamp {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  width: 60px;
+  height: 60px;
+  background: radial-gradient(circle, #0077b6, #023e8a);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffd700;
+  font-size: 1.8rem;
+  box-shadow: 0 4px 12px rgba(2, 62, 138, 0.4);
+  border: 2px dashed rgba(255, 215, 0, 0.7);
+}
+
+.letter-title {
+  font-family: var(--font-heading);
+  font-size: 1.85rem;
+  color: #03045e;
+  margin-bottom: 24px;
+  border-bottom: 2px solid #e5e7eb;
+  padding-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.letter-salutation {
+  font-family: var(--font-handwriting);
+  font-size: 2.1rem;
+  font-weight: 700;
+  color: #1e3a8a;
+  margin-bottom: 16px;
+}
+
+.letter-body p {
+  font-family: 'Georgia', serif;
+  font-size: 1.12rem;
+  line-height: 1.85;
+  color: #334155;
+  margin-bottom: 16px;
+  text-align: justify;
+}
+
+.letter-closing {
+  margin-top: 30px;
+  text-align: right;
+}
+
+.letter-closing-text {
+  font-size: 1.05rem;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.letter-signature {
+  font-family: var(--font-handwriting);
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #0077b6;
+  margin-top: 4px;
+}
+
+/* ==========================================================================
+   8. FOOTER
+   ========================================================================== */
+.footer-section {
+  text-align: center;
+  padding: 40px 10px;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.footer-tamga {
+  font-size: 1.25rem;
+  letter-spacing: 4px;
+  color: var(--primary-light);
+  margin-bottom: 10px;
+  opacity: 0.85;
+}
+
+/* ==========================================================================
+   9. RESPONSIVE UYARLAMALAR (MOBİL & TABLET)
+   ========================================================================== */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2.4rem;
+  }
+  .intro-title {
+    font-size: 1.8rem;
+  }
+  .cake-top { width: 110px; height: 40px; }
+  .cake-middle { width: 150px; height: 45px; }
+  .cake-bottom { width: 200px; height: 55px; }
+  .cake-plate { width: 240px; }
+  .letter-envelope {
+    padding: 30px 20px;
+  }
+  .letter-stamp {
+    width: 45px;
+    height: 45px;
+    font-size: 1.3rem;
+    top: 15px;
+    right: 15px;
+  }
+  .gokturk-watermark {
+    font-size: 4rem;
+  }
+}
